@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
 const cors = require('cors')
 
-app.use(cors)
+app.use(cors({}))
 app.use(bodyParser.json())
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
 app.use(bodyParser.text({ type: 'text/html' }))
