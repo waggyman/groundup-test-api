@@ -18,6 +18,7 @@ let connection, collection
         collection = db.collection('anomalies')
         console.log("CONNECTED")
     } catch (error) {
+        console.log("ADA ERROR ON CONNECTING MONGO",  error)
         throw error
     }
 })()
