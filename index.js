@@ -31,13 +31,24 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/anomalies', async (req, res) => {
-    const cursor = collection.find({});
-    const anomalies = []
-    await cursor.forEach((data) => {
-        anomalies.push(data)
-    })
+    try {
+        connection = await MongoClient.connect("mongodb+srv://root:Test1234@superlevi.tta6sbs.mongodb.net/groundup_test", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        const db = connection.db('groundup_test')
+        collection = db.collection('anomalies')
+        const cursor = collection.find({});
+        const anomalies = []
+        await cursor.forEach((data) => {
+            anomalies.push(data)
+        })
 
-    res.send(anomalies)
+        res.send(anomalies)
+    } catch (error) {
+        console.log("ERROR ON GETTING ANOMALIES", error)
+        return res.send("ERROR!")
+    }
 })
 
 app.get('/audio/:name', (req, res) => {
