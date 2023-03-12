@@ -13,7 +13,10 @@ let connection, collection
 (async () => {
     try {
         console.log(`THIS IS THE MONGO URL ${process.env.MONGO_URL} MOTHER`)
-        connection = await MongoClient.connect(process.env.MONGO_URL)
+        connection = await MongoClient.connect("mongodb+srv://root:Test1234@superlevi.tta6sbs.mongodb.net/groundup_test", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
         const db = connection.db('groundup_test')
         collection = db.collection('anomalies')
         console.log("CONNECTED")
