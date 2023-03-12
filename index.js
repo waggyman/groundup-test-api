@@ -62,11 +62,53 @@ app.get('/audio/:name', (req, res) => {
     res.sendFile(__dirname + `/audio/${filename}`)
 })
 
-app.post('/anomalies', async (req, res) => {
-    console.log(req.body)
-    res.send("TEST")
+app.post('/anomalies/:id', async (req, res) => {
+    connection = await MongoClient.connect(`${process.env.MONGO_URL}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    const db = connection.db('groundup_test')
+    collection = db.collection('anomalies')
+    const {suspectedReason, action, comment} = req.body
+    const found = await collection.findOne({_id: new ObjectId(req.params.id)})
+    if (!found) throw Error("Cannot found")
+    try {
+        const updateAnomaly = await collection.updateOne({_id: new ObjectId(req.params.id)}, {
+            $set: {
+                suspectedReason,
+                action,
+                comment
+            }
+        })
+        res.send("Update")
+    } catch (error) {
+        throw error
+    }
 })
 
+app.put('/anomalies/:id', async (req, res) => {
+    connection = await MongoClient.connect(`${process.env.MONGO_URL}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    const db = connection.db('groundup_test')
+    collection = db.collection('anomalies')
+    const {suspectedReason, action, comment} = req.body
+    const found = await collection.findOne({_id: new ObjectId(req.params.id)})
+    if (!found) throw Error("Cannot found")
+    try {
+        const updateAnomaly = await collection.updateOne({_id: new ObjectId(req.params.id)}, {
+            $set: {
+                suspectedReason,
+                action,
+                comment
+            }
+        })
+        res.send("Update")
+    } catch (error) {
+        throw error
+    }
+})
 app.patch('/anomalies/:id', async (req, res) => {
     connection = await MongoClient.connect(`${process.env.MONGO_URL}`, {
         useNewUrlParser: true,
