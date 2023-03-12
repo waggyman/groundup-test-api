@@ -12,6 +12,7 @@ let connection, collection
 
 (async () => {
     try {
+        console.log(`THIS IS THE MONGO URL ${process.env.MONGO_URL} MOTHER`)
         connection = await MongoClient.connect(process.env.MONGO_URL)
         const db = connection.db('groundup_test')
         collection = db.collection('anomalies')
