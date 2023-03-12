@@ -67,3 +67,5 @@ app.patch('/anomalies/:id', async (req, res) => {
 app.listen(port, () => {
     console.log('Example app listenig to port:' + port)
 })
+
+module.exports = app;
